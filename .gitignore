@@ -3,3 +3,9 @@ models/*
 .rasa/*
 
 .idea
+
+restaurant.db
+story_graph.dot
+domaine.yml
+data/nluprof.yml
+data/storiesprof.yml

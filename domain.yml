@@ -1,37 +1,86 @@
-version: "3.1"
+version: '3.1'
+
+actions:
+  - action_save_date_ask_number_people
+  - action_get_people_ask_confirmation
+  - action_ask_reservation_code
+  - action_give_daily_menu
+  - action_give_allergens
+  - action_whole_menu
+  - action_ask_confirmation
 
 intents:
-  - greet
-  - goodbye
   - affirm
-  - deny
-  - mood_great
-  - mood_unhappy
   - bot_challenge
+  - deny
+  - goodbye
+  - greet
   - meteo
+  - tell_city
+  - tell_date
+  - tell_people
+  - tell_reservation
+  - tell_code
+  - tell_informations_reservations
 
 responses:
   utter_meteo:
-    - text: "Il fait beau aujourd'hui"
+    - text: Il fait beau aujourd'hui
 
   utter_greet:
-  - text: "Hey! How are you?"
-
-  utter_cheer_up:
-  - text: "Here is something to cheer you up:"
-    image: "https://i.imgur.com/nGF1K8f.jpg"
+    - text: Bonjour, je suis un ChatBot de reservation de voyages. Comment puis-je vous aider ?
 
   utter_did_that_help:
-  - text: "Did that help you?"
+    - text: Did that help you?
+
+  utter_all_options:
+    - text: "Que souhaitez-vous : \n - Nouvelle Reservation \n - Infos sur resa \n - Menu du jour \n - Liste Allergene \n - Lien vers la carte"
 
   utter_happy:
-  - text: "Great, carry on!"
+    - text: Great, carry on!
 
   utter_goodbye:
-  - text: "Bye"
+    - text: Bye
 
-  utter_iamabot:
-  - text: "I am a bot, powered by Rasa."
+  utter_ask_date:
+    - text: "Pour quand souhaitez-vous reserver : \n - Ce soir \n - Demain"
+
+  utter_ask_people:
+    - text: "Pour combien de personnes ?"
+
+  utter_code:
+    - text: "Veuillez me transmettre votre code de réservation"
+
+entities:
+  - people
+  - date
+  - code
+
+
+slots:
+  date_convertie:
+    type: text
+    mappings:
+      - type: custom
+
+  code:
+    type: float
+    mappings:
+      - type: from_entity
+        entity: code
+
+  people:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: people
+  date:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: date
+
+
 
 session_config:
   session_expiration_time: 60

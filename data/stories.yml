@@ -1,35 +1,132 @@
+
 version: "3.1"
-
 stories:
-
-- story: meteo
+- story: interactive_story_1
   steps:
-  - intent: meteo
-  - action: utter_meteo
+  - intent: tell_reservation
+  - action: utter_ask_date
+  - intent: tell_date
+    entities:
+    - date: soir
+  - slot_was_set:
+    - date: soir
+  - action: action_save_date_ask_number_people
+  - intent: tell_people
+    entities:
+    - people: '10'
+  - slot_was_set:
+    - people: '10'
+  - action: action_get_people_ask_confirmation
 
-- story: happy path
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_great
-  - action: utter_happy
-
-- story: sad path 1
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: affirm
-  - action: utter_happy
-
-- story: sad path 2
+- story: interactive_story_2
   steps:
   - intent: greet
-  - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: deny
+  - action: utter_all_options
+  - action: utter_all_options
+  - intent: tell_reservation
+  - action: utter_ask_date
+  - intent: tell_date
+    entities:
+    - date: soir
+  - slot_was_set:
+    - date: soir
+  - action: action_save_date_ask_number_people
+  - action: utter_ask_people
+  - action: utter_ask_people
+  - intent: tell_people
+    entities:
+    - people: '5'
+  - slot_was_set:
+    - people: '5'
+  - action: action_get_people_ask_confirmation
+
+- story: interactive_story_3
+  steps:
+  - intent: greet
+  - action: utter_all_options
+  - intent: tell_reservation
+  - action: utter_ask_date
+  - intent: tell_date
+    entities:
+    - date: Demain
+  - slot_was_set:
+    - date: Demain
+  - action: action_save_date_ask_number_people
+  - action: utter_ask_people
+  - intent: tell_people
+    entities:
+    - people: '4'
+  - slot_was_set:
+    - people: '4'
+  - action: action_get_people_ask_confirmation
+  - action: action_ask_confirmation
+
+- story: interactive_story_4
+  steps:
+  - intent: greet
+  - action: utter_all_options
+  - intent: tell_reservation
+  - action: utter_ask_date
+  - intent: tell_date
+    entities:
+    - date: Demain
+  - slot_was_set:
+    - date: Demain
+  - action: action_save_date_ask_number_people
+  - action: utter_ask_people
+  - intent: tell_people
+    entities:
+    - people: '4'
+  - slot_was_set:
+    - people: '4'
+  - action: action_get_people_ask_confirmation
+  - action: action_ask_confirmation
+  - intent: goodbye
   - action: utter_goodbye
+
+- story: interactive_story_1
+  steps:
+  - intent: greet
+  - action: utter_all_options
+  - action: utter_all_options
+  - intent: tell_reservation
+  - action: utter_ask_date
+  - intent: tell_date
+    entities:
+    - date: Demain
+  - slot_was_set:
+    - date: Demain
+  - action: action_save_date_ask_number_people
+  - slot_was_set:
+    - date_convertie: OuiOui
+  - action: utter_ask_people
+  - intent: tell_people
+    entities:
+    - people: '5'
+  - slot_was_set:
+    - people: '5'
+  - action: action_get_people_ask_confirmation
+  - action: action_ask_confirmation
+
+- story: interactive_story_1
+  steps:
+  - intent: greet
+  - action: utter_all_options
+  - intent: tell_reservation
+  - action: utter_ask_date
+  - intent: tell_date
+    entities:
+    - date: soir
+  - slot_was_set:
+    - date: soir
+  - action: action_save_date_ask_number_people
+  - slot_was_set:
+    - date_convertie: '2024-05-13'
+  - action: utter_ask_people
+  - intent: tell_people
+    entities:
+    - people: '5'
+  - slot_was_set:
+    - people: '5'
+  - action: action_get_people_ask_confirmation
+  - action: action_ask_confirmation

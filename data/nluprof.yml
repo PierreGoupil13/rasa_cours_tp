@@ -1,0 +1,67 @@
+version: "3.1"
+
+nlu:
+  - intent: tell_reservation
+    examples: |
+      - Nouvelle Reservation
+      - Reserver une table
+      - Je souhaite une table
+      - Y à t-il une table
+      - Peut-on reserver
+
+  - intent: tell_date
+    examples: |
+      - [Demain](date)
+      - [demai](date)
+      - Pour [demain](date)
+      - Le [6 Janvier](date)
+      - Ce [soir](date)
+      - [Soir](date)
+
+  - intent: tell_people
+    examples: |
+      - [Une](people) seule personne
+      - [Une](people) personne
+      - Nous serons [10](people) personnes
+      - Il y aura [4](people)  personnes
+      - [Dix](people) personnes
+      - [10](people) personnes
+
+  - intent: greet
+    examples: |
+      - Bonjour
+      - hello
+      - hi
+      - hello there
+
+  - intent: goodbye
+    examples: |
+      - ciao
+      - good by
+      - Au revoir
+      - A la prochaine
+      - goodbye
+      - Bonne journée
+
+  - intent: affirm
+    examples: |
+      - yes
+      - Oui
+      - yep
+      - cool
+      - c'est bon
+
+  - intent: deny
+    examples: |
+      - no
+      - non
+      - jamais
+      - Surement pas
+      - pas vraiment
+
+  - intent: bot_challenge
+    examples: |
+      - are you a bot?
+      - are you a human?
+      - am I talking to a bot?
+      - am I talking to a human?
