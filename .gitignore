@@ -4,8 +4,11 @@ models/*
 
 .idea
 
-restaurant.db
-story_graph.dot
-domaine.yml
-data/nluprof.yml
-data/storiesprof.yml
+actions/__pycache__
+data/nluprof
+data/storiesprof
+
+restaurant
+story_graph
+domaine
+
