@@ -8,6 +8,7 @@ actions/__pycache__
 data/nluprof
 data/storiesprof
 
+credentials.yml
 restaurant
 story_graph
 domaine

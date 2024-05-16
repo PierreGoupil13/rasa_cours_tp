@@ -1,27 +1,12 @@
 
 version: "3.1"
 stories:
-- story: interactive_story_1
-  steps:
-  - intent: tell_reservation
-  - action: utter_ask_date
-  - intent: tell_date
-    entities:
-    - date: soir
-  - slot_was_set:
-    - date: soir
-  - action: action_save_date_ask_number_people
-  - intent: tell_people
-    entities:
-    - people: '10'
-  - slot_was_set:
-    - people: '10'
-  - action: action_get_people_ask_confirmation
 
-- story: interactive_story_2
+
+- story: story complete reservation
   steps:
   - intent: greet
-  - action: utter_all_options
+  - action: utter_greet
   - action: utter_all_options
   - intent: tell_reservation
   - action: utter_ask_date
@@ -30,103 +15,80 @@ stories:
     - date: soir
   - slot_was_set:
     - date: soir
-  - action: action_save_date_ask_number_people
-  - action: utter_ask_people
-  - action: utter_ask_people
-  - intent: tell_people
-    entities:
-    - people: '5'
+  - action: action_save_date
   - slot_was_set:
-    - people: '5'
-  - action: action_get_people_ask_confirmation
-
-- story: interactive_story_3
-  steps:
-  - intent: greet
-  - action: utter_all_options
-  - intent: tell_reservation
-  - action: utter_ask_date
-  - intent: tell_date
-    entities:
-    - date: Demain
-  - slot_was_set:
-    - date: Demain
-  - action: action_save_date_ask_number_people
+    - date_convertie: '2024-05-14'
   - action: utter_ask_people
   - intent: tell_people
     entities:
-    - people: '4'
+    - people: '3'
   - slot_was_set:
-    - people: '4'
-  - action: action_get_people_ask_confirmation
-  - action: action_ask_confirmation
-
-- story: interactive_story_4
-  steps:
-  - intent: greet
-  - action: utter_all_options
-  - intent: tell_reservation
-  - action: utter_ask_date
-  - intent: tell_date
-    entities:
-    - date: Demain
-  - slot_was_set:
-    - date: Demain
-  - action: action_save_date_ask_number_people
-  - action: utter_ask_people
-  - intent: tell_people
-    entities:
-    - people: '4'
-  - slot_was_set:
-    - people: '4'
-  - action: action_get_people_ask_confirmation
-  - action: action_ask_confirmation
+    - people: '3'
+  - action: action_save_people
+  - action: action_confirm_reservation
   - intent: goodbye
   - action: utter_goodbye
 
-- story: interactive_story_1
+- story: story retrieve reservation success
   steps:
   - intent: greet
+  - action: utter_greet
   - action: utter_all_options
-  - action: utter_all_options
-  - intent: tell_reservation
-  - action: utter_ask_date
-  - intent: tell_date
+  - intent: tell_informations_reservations
+  - action: utter_code
+  - intent: tell_code
     entities:
-    - date: Demain
+    - code: '429'
   - slot_was_set:
-    - date: Demain
-  - action: action_save_date_ask_number_people
-  - slot_was_set:
-    - date_convertie: OuiOui
-  - action: utter_ask_people
-  - intent: tell_people
-    entities:
-    - people: '5'
-  - slot_was_set:
-    - people: '5'
-  - action: action_get_people_ask_confirmation
-  - action: action_ask_confirmation
+    - code: '429'
+  - action: action_retrieve_reservation
+  - intent: goodbye
+  - action: utter_goodbye
 
-- story: interactive_story_1
+- story: Story retrieve wrong reservation
   steps:
   - intent: greet
+  - action: utter_greet
   - action: utter_all_options
-  - intent: tell_reservation
-  - action: utter_ask_date
-  - intent: tell_date
+  - intent: tell_informations_reservations
+  - action: utter_code
+  - intent: tell_code
     entities:
-    - date: soir
+    - code: '478'
   - slot_was_set:
-    - date: soir
-  - action: action_save_date_ask_number_people
-  - slot_was_set:
-    - date_convertie: '2024-05-13'
-  - action: utter_ask_people
-  - intent: tell_people
-    entities:
-    - people: '5'
-  - slot_was_set:
-    - people: '5'
-  - action: action_get_people_ask_confirmation
-  - action: action_ask_confirmation
+    - code: '478'
+  - action: action_retrieve_reservation
+  - action: action_back
+
+- story: story get allergen
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - action: utter_all_options
+  - intent: tell_informations_reservations
+  - intent: tell_allergen
+  - action: action_allergens
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: story get daily menu
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - action: utter_all_options
+  - intent: tell_allergen
+  - intent: tell_daily_menu
+  - action: action_daily_menu
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: story get whole menu
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - action: utter_all_options
+  - intent: tell_allergen
+  - intent: tell_whole_menu
+  - action: action_menu
+  - intent: goodbye
+  - action: utter_goodbye

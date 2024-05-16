@@ -1,43 +1,36 @@
 version: '3.1'
 
 actions:
-  - action_save_date_ask_number_people
-  - action_get_people_ask_confirmation
-  - action_ask_reservation_code
-  - action_give_daily_menu
-  - action_give_allergens
-  - action_whole_menu
-  - action_ask_confirmation
+  - action_save_date
+  - action_save_people
+  - action_retrieve_reservation
+  - action_daily_menu
+  - action_allergens
+  - action_menu
+  - action_confirm_reservation
+  - action_delete_reservation
 
 intents:
-  - affirm
-  - bot_challenge
-  - deny
   - goodbye
   - greet
-  - meteo
   - tell_city
   - tell_date
   - tell_people
   - tell_reservation
   - tell_code
   - tell_informations_reservations
+  - tell_suppression
+  - tell_allergen
+  - tell_daily_menu
+  - tell_whole_menu
 
 responses:
-  utter_meteo:
-    - text: Il fait beau aujourd'hui
 
   utter_greet:
-    - text: Bonjour, je suis un ChatBot de reservation de voyages. Comment puis-je vous aider ?
-
-  utter_did_that_help:
-    - text: Did that help you?
+    - text: Bonjour, je suis un ChatBot de reservation pour restaurant.
 
   utter_all_options:
     - text: "Que souhaitez-vous : \n - Nouvelle Reservation \n - Infos sur resa \n - Menu du jour \n - Liste Allergene \n - Lien vers la carte"
-
-  utter_happy:
-    - text: Great, carry on!
 
   utter_goodbye:
     - text: Bye
@@ -46,11 +39,13 @@ responses:
     - text: "Pour quand souhaitez-vous reserver : \n - Ce soir \n - Demain"
 
   utter_ask_people:
-    - text: "Pour combien de personnes ?"
+    - text: "Pour combien de personnes souhaitez-vous reserver ?"
 
   utter_code:
-    - text: "Veuillez me transmettre votre code de réservation"
+    - text: "Veuillez me transmettre votre code de réservation s'il vous plait"
 
+  utter_retrieve_options:
+    - text: "Voulez-vous modifier ou supprimer votre réservation ?"
 entities:
   - people
   - date

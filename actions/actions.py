@@ -28,6 +28,12 @@ class Database:
             cursor.execute("SELECT * FROM reservation WHERE code=?", (code,))
             return cursor.fetchone()
 
+    def delete_entry(self, code):
+        with sqlite3.connect(self.db_name) as conn:
+            cursor = conn.cursor()
+            cursor.execute("DELETE FROM reservation WHERE code=?", (code,))
+            return cursor.fetchone()
+
     def insert_entry(self, code, date, num_people):
         with sqlite3.connect(self.db_name) as conn:
             conn.cursor().execute("INSERT INTO reservation (code, date, num_people) VALUES (?, ?, ?)",
@@ -48,10 +54,10 @@ class Reservation:
         # Customize this method to return a string representation of the reservation object
 
 
-class ActionNewReservation(Action):
+class ActionManageDate(Action):
 
     def name(self) -> Text:
-        return "action_save_date_ask_number_people"
+        return "action_save_date"
 
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
@@ -61,17 +67,17 @@ class ActionNewReservation(Action):
 
         date_rasa = tracker.get_slot("date")
         date_final = datetime.now().strftime('%Y-%m-%d')  # %H:%M:%S'
-        response = f"Vous avez reservé pour : {date_final}"
+        response = f"Vous avez reservé pour le : {date_final}"
 
         dispatcher.utter_message(text=response)
 
         return [SlotSet("date_convertie", date_final)]
 
 
-class ActionGetPeople(Action):
+class ActionManagePeople(Action):
 
     def name(self) -> Text:
-        return "action_get_people_ask_confirmation"
+        return "action_save_people"
 
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
@@ -88,7 +94,7 @@ class ActionGetPeople(Action):
 class ActionConfirmation(Action):
 
     def name(self) -> Text:
-        return "action_ask_confirmation"
+        return "action_confirm_reservation"
 
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
@@ -108,10 +114,10 @@ class ActionConfirmation(Action):
         return []
 
 
-class AskReservationCode(Action):
+class AskRetrieveReservation(Action):
 
     def name(self) -> Text:
-        return "action_ask_reservation_code"
+        return "action_retrieve_reservation"
 
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
@@ -119,49 +125,87 @@ class AskReservationCode(Action):
         code = int(tracker.get_slot("code"))
         db = Database("restaurant.db")
         result = db.retrieve_entry(code)
-        reservation = Reservation(result[0], result[1], result[2])
-        print(reservation)
-        response = f"Je suis une demande de code! Voici votre code : {code}"
-        dispatcher.utter_message(text=response)
-        dispatcher.utter_message(text=reservation.__str__())
+        if(result):
+            reservation = Reservation(result[0], result[1], result[2])
+            print(reservation)
+            response = f"Voici votre code : {code}"
+            dispatcher.utter_message(text=response)
+            dispatcher.utter_message(text="Voici les les détails de votre réservation :")
+            dispatcher.utter_message(text=reservation.__str__())
+        else:
+            dispatcher.utter_message("Le code n'est pas valide")
 
         return []
 
 
-class TellMenu(Action):
+class ActionDailyMenu(Action):
 
     def name(self) -> Text:
-        return "action_give_daily_menu"
+        return "action_daily_menu"
 
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        dispatcher.utter_message(text="Je suis le menu!")
+
+        url = "https://www.regal.fr/recettes/legumes/croquettes-de-legumes-au-zaatar-et-houmous-de-petits-pois-17354"
+        dispatcher.utter_message(text="Je suis le menu du jour!")
+        dispatcher.utter_message(text=url)
 
         return []
 
 
-class GiveAllergens(Action):
+class ActionAllergens(Action):
 
     def name(self) -> Text:
-        return "action_give_allergens"
+        return "action_allergens"
 
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        url = "https://www.economie.gouv.fr/dgccrf/Publications/Vie-pratique/Fiches-pratiques/Allergene-alimentaire"
         dispatcher.utter_message(text="Je suis une liste d'allergene")
+        dispatcher.utter_message(text=url)
 
         return []
 
 
-class GiveAllMenu(Action):
+class ActionWholeMenu(Action):
 
     def name(self) -> Text:
-        return "action_whole_menu"
+        return "action_menu"
 
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        url = "https://www.osmozbistro.com/la-carte/"
         dispatcher.utter_message(text="Je suis la carte")
+        dispatcher.utter_message(text=url)
+
+        return []
+
+class ActionDeleteReservation(Action):
+
+    def name(self) -> Text:
+        return "action_delete_reservation"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        code = int(tracker.get_slot("code"))
+        db = Database("restaurant.db")
+        result = db.retrieve_entry(code)
+        if(result):
+            reservation = Reservation(result[0], result[1], result[2])
+            print(reservation)
+            response = f"Voici votre code : {code}"
+            dispatcher.utter_message(text=response)
+            dispatcher.utter_message(text="Voici les les détails de votre réservation :")
+            dispatcher.utter_message(text=reservation.__str__())
+            db.delete_entry(code)
+            dispatcher.utter_message(text="Votre réservation est bien supprimé")
+
+        else:
+            dispatcher.utter_message("Le code n'est pas valide")
 
         return []
